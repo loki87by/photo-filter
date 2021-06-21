@@ -1,0 +1,134 @@
+@keyframes open{
+  from {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    min-height: 100%;
+    background-color: rgba(0, 0, 0, .1);
+  }
+  to {
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    min-height: 100vh;
+    background-color: rgba(0, 0, 0, .5);
+  }
+}
+@keyframes open-container{
+  from {
+    width: 120px;
+    min-height: 40px;
+    padding: 0 10px;
+  }
+  90% {
+    padding: 0 10px;
+  }
+  to {
+    width: 60%;
+    min-height: 60%;
+    padding: 4vh 4vw;
+  }
+}
+@keyframes change{
+  from {
+    width: 0;
+    height: 0;
+    padding: 0;
+    font-size: 0px;
+    text-shadow: 0px 0px #454c53;
+    box-shadow: 0px 0px #454c53;
+  }
+  60% {
+    width: 17.5vh;
+    height: 17.5vh;
+    padding: 1.6vh;
+    font-size: 2.5vh;
+    text-shadow: 0px 0px #454c53;
+    box-shadow: 0px 0px #454c53;
+  }
+  to {
+    width: 17.5vh;
+    height: 17.5vh;
+    padding: 1.6vh;
+    font-size: 2.5vh;
+    text-shadow: -3px -2px black;
+    box-shadow: -3px -3px darkgrey;
+  }
+}
+@keyframes shift-bottom{
+  from {
+    top: 0;
+  }
+  to {
+    top: 4vh;
+  }
+}
+@keyframes shift-bottom-2{
+  from {
+    top: 4vh;
+    background-color: #454c53;
+    width: 4vh;
+  }
+  40% {
+    top: 7vh;
+    background-color: darkgray;
+    width: 10vw;
+    margin-left: 0;
+  }
+  to {
+    top: 8vh;
+    background-color: #fff;
+    width: 20vw;
+    margin-left: -5vw;
+  }
+}
+@keyframes shift-bottom-3{
+  from {
+    top: 8vh;
+  }
+  to {
+    top: 12vh;
+  }
+}
+@keyframes shift-top{
+  from {
+    top: 0;
+  }
+  to {
+    top: -4vh;
+  }
+}
+@keyframes door-size{
+  from {
+    width: 0;
+    height: 0;
+  }
+  to {
+  width: 4vh;
+  height: 7vh;
+  }
+}
+@keyframes horisontal-line{
+  from {
+    border-right: 0 solid #000;
+    border-bottom: 2px solid #000;
+  }
+  30% {
+    border-right: 3vh solid #000;
+    border-bottom: 2px solid #000;
+  }
+  to {
+    border-right: 3vh solid #000;
+    border-bottom: 1vh solid #fff;
+  }
+}
+@keyframes vertical-line{
+  from {
+    height: 0;
+  }
+  to {
+    height: 6vh;
+  }
+}
