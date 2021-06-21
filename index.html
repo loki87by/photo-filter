@@ -41,15 +41,13 @@
         <input name="hue-rotate" data-sizing="deg" type="range" min="0" max="360" value="0" />
         <output name="result">0</output>
       </label>
+      <button class="btn" type="button" id="more">Add more filters</button>
     </div>
     <div class="editor">
       <div class="btn-container">
         <button class="btn btn-reset">Reset</button>
         <button class="btn btn-next btn-active">Next picture</button>
-        <label class="btn btn-load" for="btnInput">
-          Load picture
-          <input class="btn-load--input" id="btnInput" name="upload" type="file" accept="image/*" placeholder="Load picture" />
-        </label>
+        <button class="btn btn-load btn-load_closed">Load picture</button>
         <button class="btn btn-save">Save picture</button>
       </div>
       <img src="assets/img/img.jpg" alt="image" />
@@ -65,6 +63,6 @@
     </div>
   </footer>
   <button class="fullscreen openfullscreen"></button>
-  <script src="index.js"></script>
+  <script type="module" src="index.js"></script>
 </body>
 </html>

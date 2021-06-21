@@ -1,3 +1,4 @@
+@import url('./animations.css');
 * {
   padding: 0;
   margin: 0;
@@ -134,25 +135,138 @@ output {
 }
 .btn-load {
   position: relative;
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
 }
-.btn-load--input {
-  opacity: 0;
+.btn-load_closed{
+  border: none;
+  color: #fff;
+  background-color: #515961;
+}
+.btn-load_input-closed{
+  display: none;
+}
+.btn-load_opened{
+  animation: open 1s ease-in-out .2s 1 normal forwards;
+}
+.btn-open{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #454c53;
+  animation: open-container 1s ease-in-out .2s 1 normal forwards;
+}
+.btn-container-choose{
+  animation: change 2s ease-in-out .2s 1 normal forwards;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 300;
+  color: #fff;
+  border: 1px solid #000;
+  border-radius: 100%;
+  background-color: #454c53;
+}
+.btn-container-form{
+  position: relative;
+  width: 10vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+.btn-container-exit{
+  position: relative;
+  visibility: hidden;
+  display: flex;
+  background: white;
+}
+.btn-container-exit_active{
+  margin-top: 13vh;
+  visibility: visible;
+  animation: door-size .5s ease-in-out .2s 1 normal forwards;
+}
+.btn-container-exit-horisontal-line{
+  position: absolute;
+  top: .5vh;
+  left: .5vh;
+  animation: horisontal-line 1s ease-in-out .1s 1 normal forwards;
+}
+.btn-container-exit-horisontal-line_bottom{
+  top: auto;
+  bottom: .5vh;
+  left: auto;
+  right: .5vh;
+  border-bottom: 2px solid #000;
+  transform: scale(1, -1)
+}
+.btn-container-exit-vertical-line{
+  position: absolute;
+  top: .5vh;
+  left: .5vh;
+  width: 2px;
+  background-color: #000;
+  animation: vertical-line .3s ease-in-out .1s 1 normal forwards;
+}
+.btn-container-exit-vertical-line_right{
+  top: auto;
+  bottom: .5vh;
+  left: auto;
+  right: .5vh;
+}
+.btn-container-select{
   position: absolute;
   top: 0;
-  right: 0;
-  width: 100%;
-  height: 100%;
+  left: 0;
+  width: 10vw;
+  height: 3.15vh;
+  z-index: 1;
+  background-color: #454c53;
+}
+.btn-container-select::placeholder{
+  text-align: center;
+}
+.btn-container-select_first{
+  z-index: 5;
+}
+.btn-container-select_second{
+  z-index: 4;
+  animation: shift-bottom 1s ease-in-out 2.2s 1 normal forwards;
+}
+.btn-container-select_top{
+  animation: shift-top 1s ease-in-out 2.2s 1 normal forwards;
+}
+.btn-container-select_third{
+  z-index: 3;
+  animation: shift-bottom 1s ease-in-out 2.2s 1 normal forwards;
+  animation: shift-bottom-2 1s ease-in-out 3.2s 1 normal forwards;
+}
+.btn-container-select_fourth{
+  z-index: 2;
+  color: #fff;
+  animation: shift-bottom 1s ease-in-out 2.2s 1 normal forwards;
+  animation: shift-bottom-3 1s ease-in-out 4.2s 1 normal forwards;
+}
+.btn-container-select_error{
+  color: rgb(255 40 40);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .2em;
+}
+.btn-load--input {
   cursor: pointer;
 }
 .filters {
   width: 100%;
   max-width: 40%;
+  max-height: 85vh;
   padding-top: 60px;
   margin-bottom: 40px;
+  overflow: hidden;
+}
+.filters_more {
+  overflow: auto;
 }
 .editor {
   display: flex;
