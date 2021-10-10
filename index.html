@@ -17,38 +17,64 @@
   <main class="main">
     <div class="filters">
       <label>
-        Blur:
+        Размытие:
         <input name="blur" data-sizing="px" type="range" min="0" max="10" value="0" />
         <output name="result">0</output>
       </label>
       <label>
-        Invert:
+        Инверсия:
         <input name="invert" data-sizing="%" type="range" min="0" max="100" value="0" />
         <output name="result">0</output>
       </label>
       <label>
-        Sepia:
+        Сепия:
         <input name="sepia" data-sizing="%" type="range" min="0" max="100" value="0" />
         <output name="result">0</output>
       </label>
       <label>
-        Saturate:
+        Насыщенность:
         <input name="saturate" data-sizing="%" type="range" min="0" max="200" value="100" />
         <output name="result">100</output>
       </label>
       <label>
-        Hue rotate:
+        Оттенок:
         <input name="hue-rotate" data-sizing="deg" type="range" min="0" max="360" value="0" />
         <output name="result">0</output>
       </label>
-      <button class="btn" type="button" id="more">Add more filters</button>
+      <button class="btn" type="button" id="more">Больше фильтров</button>
     </div>
+    <div class="settings">
+      <h4 class="settings__text">Цвет фона:</h4>
+    <input type="color" id="backcolor" value="#ffffff" />
+  </div>
+  <div class="slider">
+    <button type="button" class="slider__button slider__button_up"></button>
+    <div class="presets">
+      <div id="1977" class="presets__item"></div>
+      <div id="Aden" class="presets__item"></div>
+      <div id="Amaro" class="presets__item"></div>
+      <div id="Brannan" class="presets__item"></div>
+      <div id="Brooklyn" class="presets__item"></div>
+      <div id="Clarendon" class="presets__item"></div>
+      <div id="Earlybird" class="presets__item"></div>
+      <div id="Gingham" class="presets__item"></div>
+      <div id="Hudson" class="presets__item"></div>
+      <div id="Inkwell" class="presets__item"></div>
+      <div id="Lofi" class="presets__item"></div>
+      <div id="Maven" class="presets__item"></div>
+      <div id="Reyes" class="presets__item"></div>
+      <div id="Stinson" class="presets__item"></div>
+      <div id="Valencia" class="presets__item"></div>
+      <div id="Xpro2" class="presets__item"></div>
+    </div>
+    <button type="button" class="slider__button slider__button_down"></button>
+  </div>
     <div class="editor">
       <div class="btn-container">
-        <button class="btn btn-reset">Reset</button>
-        <button class="btn btn-next btn-active">Next picture</button>
-        <button class="btn btn-load btn-load_closed">Load picture</button>
-        <button class="btn btn-save">Save picture</button>
+        <button class="btn btn-reset">Сбросить</button>
+        <button class="btn btn-next btn-active">Далее</button>
+        <button class="btn btn-load btn-load_closed">Загрузить</button>
+        <button class="btn btn-save">Сохранить</button>
       </div>
       <img src="assets/img/img.jpg" alt="image" />
       <canvas id="canvasImage"></canvas>
@@ -56,7 +82,8 @@
   </main>
   <footer class="footer">
     <div class="footer-container">
-      <a class="github" href="#" target="_blank" rel="noopener noreferrer">github</a>
+      <a class="github" href="https://github.com/loki87by" target="_blank" rel="noopener noreferrer">github</a>
+      <h3 class="footer-text"></h3>
       <a class="rss" href="https://rs.school/js/" target="_blank" rel="noopener">
         <span class="rss-year">'21</span>
       </a>

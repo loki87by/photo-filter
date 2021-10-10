@@ -2,6 +2,8 @@
 import {
   DEFAULT_IMAGE_PROPS,
   IMAGE_FORMATS,
+  PRESETS,
+  DOWNLOAD_INNER_CONTAINER,
   ANIMATION_INNER_CONTAINER,
   ANIMATION_UPLOAD_BUTTON,
   ANIMATION_UPLOAD_INPUT,
@@ -9,15 +11,21 @@ import {
 } from "./consts.js";
 
 /// *** consts
-const MAIN = document.querySelector(".main");
+const BODY = document.querySelector("body");
 const IMAGE = document.querySelector("img");
 const CANVAS = document.querySelector("canvas");
 const FILTERS = document.querySelector(".filters");
 const LABELS = FILTERS.querySelectorAll("label");
+const PRESET = document.querySelector(".presets");
+const SLIDER_UP = document.querySelector(".slider__button_up");
+const PRESETS__ITEMS = document.querySelectorAll(".presets__item");
+const SLIDER_DOWN = document.querySelector(".slider__button_down");
 const RESET = document.querySelector(".btn-reset");
 const NEXT = document.querySelector(".btn-next");
 const SAVE = document.querySelector(".btn-save");
 const MORE = document.getElementById("more");
+const BACKGROUND = document.getElementById("backcolor");
+const FOOTER_TEXT = document.querySelector(".footer-text");
 const FULLSCREEN_BUTTON = document.querySelector(".fullscreen");
 const DATE = new Date();
 const HOURS = DATE.getHours();
@@ -28,6 +36,7 @@ let imageCounter = 1;
 let newFilter = "none";
 let fileType = "jpg";
 let step = 0;
+let slideCounter = 0;
 
 // *** functions
 // ** getters/setters
@@ -64,6 +73,12 @@ function drawImage() {
     ctx.filter = newFilter;
     ctx.drawImage(img, 0, 0);
   };
+  const text = `CSS: ${newFilter}`;
+  if (text !== "CSS: none") {
+    FOOTER_TEXT.textContent = text;
+  } else {
+    FOOTER_TEXT.textContent = "";
+  }
 }
 function uploadFile() {
   const fileList = this.files;
@@ -73,49 +88,101 @@ function uploadFile() {
   drawImage();
   closeBtnContainer();
 }
+function chooseFormat() {
+  SAVE.innerHTML = DOWNLOAD_INNER_CONTAINER
+  const SAVE_CONTAINER = document.querySelector(".btn-save");
+  const jpgFormatButton = SAVE_CONTAINER.children[0].children[1]
+  jpgFormatButton.addEventListener('click', () => {
+    fileType = "jpg"
+    downloadImage()
+  })
+  const pngFormatButton = document.querySelector('.download-container_button')
+  pngFormatButton.addEventListener('click', () => {
+    fileType = "png"
+    downloadImage()
+  })
+}
 function downloadImage() {
   drawImage();
   setTimeout(() => {
     let link = document.createElement("a");
-    link.download = `download.png`;
-    link.href = CANVAS.toDataURL(`image/png`);
+    link.download = `download.${fileType}`;
+    link.href = CANVAS.toDataURL(`image/${fileType}`);
     link.click();
     link.delete;
+    SAVE.innerHTML = 'Сохранить'
   }, 1000);
+}
+function rangesFromPreset() {
+  const filterData = newFilter;
+  resetFilters();
+  const LABELS = FILTERS.querySelectorAll("label");
+  const filtersArray = filterData.split(" ");
+  for (let i = 0; i < filtersArray.length; i++) {
+    const filter = filtersArray[i].split("(")[0];
+    const value = +filtersArray[i].split("(")[1].replace(/\D/gi, "");
+    for (let j = 0; j < LABELS.length; j++) {
+      if (LABELS[j].children[0].name === filter) {
+        LABELS[j].children[0].value = value;
+        LABELS[j].children[1].value = value;
+      }
+    }
+  }
+}
+function createPresets() {
+  for (let i = 0; i < PRESETS__ITEMS.length; i++) {
+    const title = document.createElement("p");
+    const id = PRESETS__ITEMS[i].id;
+    title.textContent = id;
+    PRESETS__ITEMS[i].appendChild(title);
+    const image = document.createElement("img");
+    image.src = IMAGE.src;
+    image.className = "presets__image";
+    image.alt = `${IMAGE.src}-${id}`;
+    image.style.filter = PRESETS[id];
+    PRESETS__ITEMS[i].appendChild(image);
+    image.addEventListener("click", () => {
+      newFilter = PRESETS[id];
+      rangesFromPreset();
+      newFilter = PRESETS[id];
+      drawImage();
+      IMAGE.style.filter = newFilter;
+    });
+  }
 }
 function addMoreFilters() {
   MORE.removeEventListener("click", addMoreFilters);
   MORE.remove();
   const brightness = LABELS[3].cloneNode(true);
   brightness.children[0].name = "brightness";
-  brightness.firstChild.data = "Brightness";
+  brightness.firstChild.data = "Яркость";
   FILTERS.appendChild(brightness);
   const contrast = LABELS[3].cloneNode(true);
   contrast.children[0].name = "contrast";
-  contrast.firstChild.data = "Contrast";
+  contrast.firstChild.data = "Контраст";
   FILTERS.appendChild(contrast);
   const grayscale = LABELS[1].cloneNode(true);
   grayscale.children[0].name = "grayscale";
-  grayscale.firstChild.data = "Grayscale";
+  grayscale.firstChild.data = "Оттенки серого";
   FILTERS.appendChild(grayscale);
   const opacity = LABELS[1].cloneNode(true);
   opacity.children[0].name = "opacity";
   opacity.children[0].value = "100";
-  opacity.firstChild.data = "Opacity";
+  opacity.firstChild.data = "Непрозрачность";
   FILTERS.appendChild(opacity);
   FILTERS.classList.add("filters_more");
-  const inputs = document.querySelectorAll('input');
+  const inputs = document.querySelectorAll("input");
   inputs.forEach((input) => {
-    input.classList.add('input_more');
-  })
-  const outputs = document.querySelectorAll('output');
+    input.classList.add("input_more");
+  });
+  const outputs = document.querySelectorAll("output");
   outputs.forEach((output) => {
-    output.classList.add('output_more');
-  })
-  const labels = document.querySelectorAll('label');
+    output.classList.add("output_more");
+  });
+  const labels = document.querySelectorAll("label");
   labels.forEach((label) => {
-    label.classList.add('label_more');
-  })
+    label.classList.add("label_more");
+  });
 }
 // * upload errors
 function addErrorClasses(secondWord, otherWords) {
@@ -124,19 +191,20 @@ function addErrorClasses(secondWord, otherWords) {
   otherWords[1].classList.add("btn-container-select_error");
 }
 function setInvalidUrlError(secondWord, otherWords) {
-  secondWord.textContent = "valid";
+  secondWord.textContent = "корректный";
   otherWords[1].textContent = "url";
-  otherWords[0].textContent = "enter";
+  otherWords[0].textContent = "введите";
   addErrorClasses(secondWord, otherWords);
 }
 function setInvalidLinkError(secondWord, otherWords) {
-  secondWord.textContent = "url to";
-  otherWords[1].textContent = "image";
-  otherWords[0].textContent = "enter";
+  secondWord.textContent = "url";
+  otherWords[1].textContent = "изображения";
+  otherWords[0].textContent = "введите";
   addErrorClasses(secondWord, otherWords);
 }
 
 // ** switchers
+// * change image
 function switchImage() {
   if (imageCounter !== 20) {
     imageCounter++;
@@ -144,7 +212,45 @@ function switchImage() {
     imageCounter = 1;
   }
   setImage();
+  for(let i=0; i<PRESETS__ITEMS.length; i++){
+    PRESETS__ITEMS[i].innerHTML = ''
+  }
+  createPresets()
   drawImage();
+}
+// * change background
+function changeBackground(e) {
+  const newBackground = e.target.value;
+  BODY.style.setProperty("--back", newBackground);
+}
+// * change slides
+function changeSlides(e) {
+  const back = e.target.classList.contains("slider__button_up");
+  if (back) {
+    slideCounter -= 1;
+    if (slideCounter < 0) {
+      slideCounter = 3;
+    }
+  } else {
+    slideCounter += 1;
+    if (slideCounter > 3) {
+      slideCounter = 0;
+    }
+  }
+  let shift = -410 * slideCounter;
+  for (let i = 0; i < PRESETS__ITEMS.length; i++) {
+    PRESETS__ITEMS[i].style = `transform: translateY(${shift}%)`;
+  }
+}
+// * scroll presets
+function scrollPresets(e) {
+  const data = {};
+  if (e.wheelDelta > 0) {
+    data.target = SLIDER_UP;
+  } else {
+    data.target = SLIDER_DOWN;
+  }
+  changeSlides(data);
 }
 // * Fullscreen mode
 function fullscreenSwitch() {
@@ -157,12 +263,12 @@ function fullscreenSwitch() {
   }
 }
 function launchFullScreen() {
-  if (MAIN.requestFullScreen) {
-    MAIN.requestFullScreen();
-  } else if (MAIN.mozRequestFullScreen) {
-    MAIN.mozRequestFullScreen();
-  } else if (MAIN.webkitRequestFullScreen) {
-    MAIN.webkitRequestFullScreen();
+  if (BODY.requestFullScreen) {
+    BODY.requestFullScreen();
+  } else if (BODY.mozRequestFullScreen) {
+    BODY.mozRequestFullScreen();
+  } else if (BODY.webkitRequestFullScreen) {
+    BODY.webkitRequestFullScreen();
   }
 }
 function cancelFullscreen() {
@@ -217,7 +323,6 @@ function fromScrollFilter(event) {
   } else {
     selector = event.target.offsetParent.firstElementChild;
   }
-  console.dir(selector);
   step = selector.valueAsNumber;
   if (event.wheelDelta > 0) {
     step += 1;
@@ -235,6 +340,7 @@ function fromScrollFilter(event) {
   useFilter(selector);
 }
 function resetFilters() {
+  const LABELS = FILTERS.querySelectorAll("label");
   for (let i = 0; i < LABELS.length; i++) {
     const item = LABELS[i].firstElementChild;
     let defaultPropsObject = DEFAULT_IMAGE_PROPS.find((i) => {
@@ -261,7 +367,7 @@ function uploadBtnAnimation() {
 }
 function closeBtnContainer() {
   uploadButton.classList.remove("btn-load_opened");
-  uploadButton.outerHTML = `<button class="btn btn-load">Load picture</button>`;
+  uploadButton.outerHTML = `<button class="btn btn-load">Загрузить изображение</button>`;
   const newLoad = document.querySelector(".btn-load");
   uploadButton = newLoad;
   uploadButton.addEventListener("click", uploadBtnAnimation);
@@ -273,7 +379,7 @@ function deferredShifting(element) {
   setTimeout(() => {
     button.classList.add("btn-container-choose");
     setTimeout(() => {
-      button.textContent = "Load picture from your device";
+      button.textContent = "Загрузить изображение с устройства";
     }, 500);
     select.innerHTML = ANIMATION_UPLOAD_BUTTON;
     button.addEventListener("click", () => {
@@ -326,13 +432,18 @@ function deferredShifting(element) {
 
 /// *** start preload functions
 drawImage();
+createPresets();
 
 // *** listeners
 uploadButton.addEventListener("click", uploadBtnAnimation);
 FILTERS.addEventListener("change", fromInputFilter);
 FILTERS.addEventListener("wheel", fromScrollFilter);
+PRESET.addEventListener("wheel", scrollPresets);
 RESET.addEventListener("click", resetFilters);
 NEXT.addEventListener("click", switchImage);
-SAVE.addEventListener("click", downloadImage);
+SAVE.addEventListener("click", chooseFormat);
 MORE.addEventListener("click", addMoreFilters);
+SLIDER_UP.addEventListener("click", changeSlides);
+SLIDER_DOWN.addEventListener("click", changeSlides);
+BACKGROUND.addEventListener("change", changeBackground);
 FULLSCREEN_BUTTON.addEventListener("click", fullscreenSwitch);
