@@ -490,7 +490,9 @@ canvas {
 }
 @media (max-width: 1024px) {
   .main {
+    position: relative;
     padding-top: 40px;
+    flex-wrap: wrap;
   }
   label:not(.btn) {
     margin-bottom: 35px;
@@ -511,8 +513,10 @@ canvas {
   .btn-container > * {
     margin: 10px;
   }
-  .main {
-    flex-wrap: wrap;
+.slider {
+    position: absolute;
+    bottom: 8vh;
+    height: 75vh;
   }
   .filters,
   .editor {
